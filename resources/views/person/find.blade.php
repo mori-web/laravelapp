@@ -9,20 +9,29 @@
 
 
 @section('content')
-<form action="/person/find" method="post">
-  @csrf
-  <input type="text" name="input" value="{{ $input }}">
-  <input type="submit" value="find">
-</form>
+<div class="container">
+  <form action="/person/find" method="post">
+    @csrf
+    <input type="text" name="input" value="{{ $input }}">
+    <input type="submit" value="find">
+  </form>
 
-@if (isset($item))
-<table>
-  <tr><th>Data</th></tr>
-  <tr>
-    <td>{{ $item->getData() }}</td>
-  </tr>
-</table>
-@endif
+  @if (isset($item))
+  <div class="mt-3">
+    
+    <table>
+      @foreach ($item as $a)
+      <tr>
+        <th>Data</th>
+      </tr>
+      <tr>
+        <td>{{ $a->getData() }}</td>
+      </tr>
+      @endforeach
+    </table>
+  </div>
+  @endif
+</div>
 @endsection
 
 @section('footer')

@@ -19,6 +19,13 @@ tr th a:active { color: white; }
 
 
 @section('content')
+
+@if(Auth::check())
+  <p>USER: {{ $user->name . '(' . $user->email . ')' }}</p>
+@else
+  <p>※ログインしていません。(<a href="/login">ログイン</a>|<a href="/register">登録</a>)</p>
+@endif
+
 <table>
   <tr>
     <th><a href="/hello?sort=name">name</a></th>
@@ -33,7 +40,9 @@ tr th a:active { color: white; }
     </tr>
   @endforeach
 </table>
-{{ $items->appends(['sort'=>$sort])->links() }}
+<div class="mt-3">
+  {{ $items->appends(['sort'=>$sort])->links() }}
+</div>
 
 @endsection
 

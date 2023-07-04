@@ -66,4 +66,9 @@ class Person extends Model
   {
     return $this->id . ': ' . $this->name . ' (' . $this->age . ')';
   }
+
+  // 主テーブルで外部キーの設定(1対1の場合)
+  public function boards() {
+    return $this->hasMany('App\Models\Board');
+  }
 }

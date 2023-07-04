@@ -8,19 +8,28 @@ use Laravel\Ui\Presets\React;
 
 class PersonController extends Controller
 {
+
+  //一覧画面表示
   public function index(Request $request)
   {
-    $items = Person::all();
-    return view('person.index', ['items' => $items]);
+    //指定のリレーションの値を持つレコードの取得
+    $hasItems = Person::has('boards')->get();
+    //指定のリレーションの値を持たないレコードの取得
+    $noItems = Person::doesntHave('boards')->get();
+
+    $param = ['hasItems' => $hasItems, 'noItems' => $noItems];
+    return view('person.index', $param);
   }
 
   //新規作成・表示
-  public function add(Request $request) {
+  public function add(Request $request)
+  {
     return view('person.add');
   }
 
   // 新規作成・保存処理
-  public function create(Request $request) {
+  public function create(Request $request)
+  {
     $this->validate($request, Person::$rules);
     $person = new Person;
     $form = $request->all();
@@ -30,12 +39,14 @@ class PersonController extends Controller
   }
 
   //編集画面・表示
-  public function edit(Request $request) {
+  public function edit(Request $request)
+  {
     $person = Person::find($request->id);
-    return view('person.edit', ['form'=> $person]);
+    return view('person.edit', ['form' => $person]);
   }
   //編集の更新処理
-  public function update(Request $request) {
+  public function update(Request $request)
+  {
     $this->validate($request, Person::$rules);
     $person = Person::find($request->id);
     $form = $request->all();
@@ -45,13 +56,15 @@ class PersonController extends Controller
   }
 
   //削除画面の表示
-  public function delete(Request $request) {
+  public function delete(Request $request)
+  {
     $item = Person::find($request->id);
     return view('person/delete', ['form' => $item]);
   }
 
   //削除の処理
-  public function remove(Request $request) {
+  public function remove(Request $request)
+  {
     Person::find($request->id)->delete();
     return redirect('/person');
   }
